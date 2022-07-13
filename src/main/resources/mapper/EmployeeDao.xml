@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.demo.springbootdemo.dao.EmployeeDao">
+
+    <!-- <select id="getEmployeeList" resultType="EmployeeModel">
+         select * from employee;
+     </select>-->
+
+    <select id="getEmployeeList" resultType="EmployeeModel">
+        select * from employee
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="age != null">
+                and age = #{age}
+            </if>
+            <if test="sex != null">
+                and sex = #{sex}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="department != null and department != ''">
+                and department = #{department}
+            </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="EmployeeModel" useGeneratedKeys="true" keyProperty="id">
+        insert into employee (id,name,age,sex,email,department)
+        values (#{id},#{name},#{age},#{sex},#{email},#{department})
+    </insert>
+
+    <update id="update" parameterType="EmployeeModel">
+        update employee
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="department != null">
+                department = #{department},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="delete" parameterType="java.lang.Long">
+        delete from employee where id = #{id}
+    </update>
+</mapper>
+
+        <!--动态添加员工信息-->
+        <!-- <insert id="save" parameterType="EmployeeModel" useGeneratedKeys="true" keyProperty="id">
+             insert into employee
+             <trim prefix="(" suffix=")" suffixOverrides=",">
+                 <if test="id != null">
+                     id,
+                 </if>
+                 <if test="name != null">
+                     name,
+                 </if>
+                 <if test="age != null">
+                     age,
+                 </if>
+                 <if test="sex != null">
+                     sex,
+                 </if>
+                 <if test="email != null">
+                     email,
+                 </if>
+                 <if test="department != null">
+                     department,
+                 </if>
+             </trim>
+             <trim prefix="values (" suffix=")" suffixOverrides=",">
+                 <if test="id != null">
+                     #{id},
+                 </if>
+                 <if test="name != null">
+                     #{name},
+                 </if>
+                 <if test="age != null">
+                     #{age},
+                 </if>
+                 <if test="sex != null">
+                     #{sex},
+                 </if>
+                 <if test="email != null">
+                     #{email},
+                 </if>
+                 <if test="department != null">
+                     #{department},
+                 </if>
+             </trim>
+
+         </insert>-->
+
